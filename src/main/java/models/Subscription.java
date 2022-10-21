@@ -1,6 +1,6 @@
 package models;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,103 +13,56 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class Subscription {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	@ManyToOne
+	@JoinColumn(name = "seller")
+	private Seller seller;
 	
-	//private Seller seller;
+	private LocalDate SubRelease;
 	
-	private LocalDateTime SubRelease;
-	
-	private LocalDateTime SubDeadline;
+	private LocalDate SubDeadline;
 	
 	@Column(name = "subscription_heading")
 	private String SubHeading;
 	
-	@OneToOne(mappedBy = "mySubs")
+	@OneToOne(mappedBy = "subscription")
 	private User user;
 	
 	@Enumerated(EnumType.STRING)
 	private SubscriptionDuration duration;
 	
-	public Subscription() {}
-
-	public Subscription(Seller seller,User user, SubscriptionDuration duration) {
-		//this.seller = seller;
-		this.SubRelease = LocalDateTime.now();
-		this.user = user;
-		this.duration = duration;
-		this.SubDeadline = gimmeTheDeadline();
-		this.SubHeading = user.getName()+" "+user.getLastname();
-	}
-	
 	//return the deadline based on the duration
-	private LocalDateTime gimmeTheDeadline() {
+	public void calcDeadline() {
 		if(duration.equals(SubscriptionDuration.WEEKLY)) {
-			return this.SubRelease.plusWeeks(1);
+			this.SubDeadline = this.SubRelease.plusWeeks(1);
+		} else {
+			this.SubDeadline = this.SubRelease.plusMonths(1);
 		}
-		return this.SubRelease.plusMonths(1);
 	}
 	
 	//return if the deadline date is before than today false either true, let us know if the sub is valid :)
 	public boolean isValid() {
-		if(this.SubDeadline.isBefore(LocalDateTime.now())) {
+		if(this.SubDeadline.isBefore(LocalDate.now())) {
 			return false;
 		}
 		return true;
 	}
 
-//	public Seller getSeller() {
-//		return seller;
-//	}
-//
-//	public void setSeller(Seller seller) {
-//		this.seller = seller;
-//	}
-
-	public LocalDateTime getSubRelease() {
-		return SubRelease;
-	}
-
-	public void setSubRelease(LocalDateTime subRelease) {
-		SubRelease = subRelease;
-	}
-
-	public LocalDateTime getSubDeadline() {
-		return SubDeadline;
-	}
-
-	public void setSubDeadline(LocalDateTime subDeadline) {
-		SubDeadline = subDeadline;
-	}
-
-
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public SubscriptionDuration getDuration() {
-		return duration;
-	}
-
-	public void setDuration(SubscriptionDuration duration) {
-		this.duration = duration;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	
-	
-	
 }

@@ -1,7 +1,5 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -30,6 +28,8 @@ public class Seller {
 	@OneToMany(mappedBy="seller",fetch = FetchType.EAGER)//Collections are lazy-loaded by default
 	private Set<Ticket> soldTickets;
 	
+	@OneToMany(mappedBy="seller",fetch = FetchType.EAGER)
+	private Set<Subscription> soldSubs;
 	
 	public Seller() {}
 

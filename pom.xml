@@ -5,6 +5,12 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>BuildWeek4</name>
   <dependencies>
+  <dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		    <version>1.18.24</version>
+		    <scope>provided</scope>
+		</dependency>
       <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-entitymanager</artifactId>

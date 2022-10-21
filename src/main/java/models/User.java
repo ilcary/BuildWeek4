@@ -1,15 +1,16 @@
 package models;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 public class User {
@@ -33,7 +34,7 @@ public class User {
 	
 	@OneToOne
 	@JoinColumn(name = "subscription")
-	private Subscription mySubs;
+	@Getter @Setter private Subscription subscription;
 	
 	
 	public User() {}

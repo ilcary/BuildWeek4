@@ -26,7 +26,6 @@ public class VendingMachine extends Seller{
 	
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return this.getSellerName()+" of type "+this.getTypeSeller();
 	}
 	
